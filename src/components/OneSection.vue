@@ -1,15 +1,41 @@
 <script setup lang="ts">
+import { ref, computed } from "vue";
+
 interface Props {
-    title: String;
-    content: number;
+    id: number;
+    name: string;
+    email: string;
+    points: number;
+    note?: string;
 }
-defineProps<Props>();
+
+const props = withDefaults(
+    defineProps<Props>(),
+    {note: "--"}
+);
+const localPoints = ref(props.points);
+const pointUp = (): void => {
+    localPoints.value++;
+};
 </script>
 
 <template>
     <section class="box">
-        <h4>{{ title }}</h4>
-        <p>{{ content }}</p>
+        <h4>{{ name }}さんの情報</h4>
+        <dl>
+            <dt>ID</dt>
+            <dd>{{ id }}</dd>
+
+            <dt>mail</dt>
+            <dd>{{ email }}</dd>
+
+            <dt>保有ポイント</dt>
+            <dd>{{ localPoints }}</dd>
+
+            <dt>備考</dt>
+            <dd>{{ note }}</dd>
+        </dl>
+        <button v-on:click="pointUp">ポイント加算</button>
     </section>
 </template>
 
