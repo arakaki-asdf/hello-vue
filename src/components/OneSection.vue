@@ -1,14 +1,21 @@
+<script setup lang="ts">
+interface Props {
+    title: String;
+    content: number;
+}
+defineProps<Props>();
+</script>
+
 <template>
     <section class="box">
-        <h4>one component</h4>
-        <p>コンポーネントです。</p>
+        <h4>{{ title }}</h4>
+        <p>{{ content }}</p>
     </section>
 </template>
 
 <style>
 .box {
-    border: gren 1px dashed;
+    border: green 1px dashed;
     margin: 10px;
 }
 </style>
-
