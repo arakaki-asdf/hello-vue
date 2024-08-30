@@ -1,28 +1,50 @@
 <script setup lang="ts">
 // parent -> this
 interface Props {
-    rand: number;
+    id: number;
+    name: string;
+    email: string;
+    points: number;
+    note?: string;
 }
 
 // this -> parent (event fire)
 interface Emits {
-    (event: "createNewRand"): void;
+    // (event: "createNewRand"): void;
+    (event: "incrementPoint", id: number): void;
 }
 
 // Propsを適用
-defineProps<Props>();
+const props = withDefaults(
+    defineProps<Props>(),
+    { note: "--" });
 
 // Emitの定義、実行用イベント
 const emit = defineEmits<Emits>();
-const onNewRandButtonClick = (): void => {
-    emit("createNewRand");
+const pointUp = (): void => {
+    // emit("createNewRand");
+    emit("incrementPoint", props.id);
 }
 </script>
 
 <template>
     <section class="box">
-        <p>子コンポーネントで親の乱数を表示: {{ rand }}</p>
-        <button v-on:click="onNewRandButtonClick">親の乱数発生イベントを実行</button>
+        <h4>{{ name }}さんの情報</h4>
+        <dl>
+            <dt>ID</dt>
+            <dd>{{ id }}</dd>
+
+            <dt>メールアドレス</dt>
+            <dd>{{ email }}</dd>
+
+            <dt>保有ポイント</dt>
+            <dd>{{ points }}</dd>
+
+            <dt>備考</dt>
+            <dd>{{ note }}</dd>
+        </dl>
+
+        <button v-on:click="pointUp">ポイント加算</button>
     </section>
 </template>
 
