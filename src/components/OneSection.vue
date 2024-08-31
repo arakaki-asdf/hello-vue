@@ -1,50 +1,39 @@
 <script setup lang="ts">
+import { computed, inject } from "vue";
+import type { Member } from "../interfaces"
 // parent -> this
 interface Props {
     id: number;
-    name: string;
-    email: string;
-    points: number;
-    note?: string;
 }
+const props = defineProps<Props>();
 
-// this -> parent (event fire)
-interface Emits {
-    // (event: "createNewRand"): void;
-    (event: "incrementPoint", id: number): void;
-}
-
-// Propsを適用
-const props = withDefaults(
-    defineProps<Props>(),
-    { note: "--" });
-
-// Emitの定義、実行用イベント
-const emit = defineEmits<Emits>();
-const pointUp = (): void => {
-    // emit("createNewRand");
-    emit("incrementPoint", props.id);
-}
+const memberList = inject("memberList") as Map<number, Member>;
+const member = computed(
+    (): Member => {
+        return memberList.get(props.id) as Member;
+    }
+);
 </script>
 
 <template>
     <section class="box">
-        <h4>{{ name }}さんの情報</h4>
+        <h4>{{ member.name }}さんの情報</h4>
         <dl>
             <dt>ID</dt>
             <dd>{{ id }}</dd>
 
             <dt>メールアドレス</dt>
-            <dd>{{ email }}</dd>
+            <dd>{{ member.email }}</dd>
 
             <dt>保有ポイント</dt>
-            <dd>{{ points }}</dd>
+            <dd>
+                <input type="number" v-model.number="member.points">
+            </dd>
 
             <dt>備考</dt>
-            <dd>{{ note }}</dd>
+            <dd>{{ member.note }}</dd>
         </dl>
-
-        <button v-on:click="pointUp">ポイント加算</button>
+        <!-- <button v-on:click="pointUp">ポイント加算</button> -->
     </section>
 </template>
 
