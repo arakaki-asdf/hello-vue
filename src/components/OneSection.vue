@@ -8,11 +8,13 @@ interface Props {
 const props = defineProps<Props>();
 
 const memberList = inject("memberList") as Map<number, Member>;
-const member = computed(
-    (): Member => {
-        return memberList.get(props.id) as Member;
-    }
-);
+const member = memberList.get(props.id) as Member;
+// const member = computed((): Member => memberList.get(props.id) as Member);
+const onInput = (event: Event): void => {
+    const elem = event.target as HTMLInputElement;
+    // member.value.email = elem.value;
+    member.email = elem.value;
+};
 </script>
 
 <template>
@@ -23,11 +25,15 @@ const member = computed(
             <dd>{{ id }}</dd>
 
             <dt>メールアドレス</dt>
-            <dd>{{ member.email }}</dd>
+            <dd>
+                <input type="text" v-on:input="onInput" v-bind:value="member.email">
+                {{ member.email }}
+            </dd>
 
             <dt>保有ポイント</dt>
             <dd>
-                <input type="number" v-model.number="member.points">
+                <!-- <input type="number" v-model.number="member.points"> -->
+                <input type="number" v-model="member.points">
             </dd>
 
             <dt>備考</dt>

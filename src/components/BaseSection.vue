@@ -13,12 +13,22 @@ const totalPoints = computed(
         return total;
     }
 );
+const allMails = computed(
+    (): string => {
+        let mails = [];
+        for (const item of memberList.values()) {
+            mails.push(item.email);
+        }
+        return mails.join(" , ");
+    }
+);
 </script>
 
 <template>
     <section>
         <h1>会員リスト</h1>
         <p>全会員の保有ポイントの合計: {{ totalPoints }}</p>
+        <p>全体のメールアドレス {{ allMails }}</p>
         <OneSection
             v-for="id in memberList.keys()"
             v-bind:key="id"
