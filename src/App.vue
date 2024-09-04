@@ -1,15 +1,27 @@
 <script setup lang="ts">
-import { reactive, provide } from "vue";
-import BaseSection from "./components/BaseSection.vue";
-import type { Member } from "./interfaces";
-
-const memberList = new Map<number, Member>();
-memberList.set(1, {id: 1, name: "田中太郎", email:"bow@example.com", points: 35, note: "初回特典" });
-memberList.set(2, {id: 2, name: "鈴木", email: "mue@example.com2", points: 53 });
-// 会員情報リストの用意
-provide("memberList", reactive(memberList));
+import OneSection from "./components/OneSection.vue";
 </script>
 
 <template>
-  <BaseSection />
+  <section class="box">
+    <h2>Slotの利用</h2>
+    <OneSection>
+      <template v-slot:detail="{memberInfo}">
+        <dl>
+          <dt>名前</dt>
+          <dd>{{  memberInfo.name }}</dd>
+
+          <dt>状況</dt>
+          <dd>{{ memberInfo.state }}</dd>
+        </dl>
+      </template>
+    </OneSection>
+  </section>
 </template>
+
+<style>
+.box {
+    border: green 1px solid;
+    margin: 10px;
+}
+</style>

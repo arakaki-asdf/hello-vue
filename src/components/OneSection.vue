@@ -1,51 +1,24 @@
 <script setup lang="ts">
-import { computed, inject } from "vue";
-import type { Member } from "../interfaces"
-// parent -> this
-interface Props {
-    id: number;
-}
-const props = defineProps<Props>();
+import {reactive} from "vue";
 
-const memberList = inject("memberList") as Map<number, Member>;
-const member = memberList.get(props.id) as Member;
-// const member = computed((): Member => memberList.get(props.id) as Member);
-const onInput = (event: Event): void => {
-    const elem = event.target as HTMLInputElement;
-    // member.value.email = elem.value;
-    member.email = elem.value;
-};
+const memberInfo = reactive({
+    name: "田中太郎",
+    state: "問題ありません。"
+});
 </script>
 
 <template>
-    <section class="box">
-        <h4>{{ member.name }}さんの情報</h4>
-        <dl>
-            <dt>ID</dt>
-            <dd>{{ id }}</dd>
-
-            <dt>メールアドレス</dt>
-            <dd>
-                <input type="text" v-on:input="onInput" v-bind:value="member.email">
-                {{ member.email }}
-            </dd>
-
-            <dt>保有ポイント</dt>
-            <dd>
-                <!-- <input type="number" v-model.number="member.points"> -->
-                <input type="number" v-model="member.points">
-            </dd>
-
-            <dt>備考</dt>
-            <dd>{{ member.note }}</dd>
-        </dl>
-        <!-- <button v-on:click="pointUp">ポイント加算</button> -->
+    <section>
+        <slot name="detail" v-bind:memberInfo="memberInfo">
+            <h1>{{ memberInfo.name }}さんの状況</h1>
+            <p>{{ memberInfo.state }}</p>
+        </slot>
     </section>
 </template>
 
 <style>
-.box {
-    border: green 1px dashed;
+section {
+    border: orange 1px solid;
     margin: 10px;
 }
 </style>
