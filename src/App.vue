@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import OneSection from "./components/OneSection.vue";
+import { ref, shallowRef } from "vue";
+import Radio from "./components/Radio.vue";
+import Select from "./components/Select.vue";
+import Input from "./components/Input.vue";
+
+const componentList = [Input, Radio, Select];
+const nameList: string[] = ["Input", "Radio", "Select"];
+
+let currentIndex = 0;
+const currentComponent = shallowRef(componentList[currentIndex]);
+const currentName = ref(nameList[currentIndex]);
+
+const switchComponent = (): void => {
+  currentIndex = ++currentIndex % componentList.length;
+  currentComponent.value = componentList[currentIndex];
+  currentName.value = nameList[currentIndex];
+}
 </script>
 
 <template>
-  <section class="box">
-    <h2>Slotの利用</h2>
-    <OneSection>
-      <template v-slot:detail="{memberInfo}">
-        <dl>
-          <dt>名前</dt>
-          <dd>{{  memberInfo.name }}</dd>
-
-          <dt>状況</dt>
-          <dd>{{ memberInfo.state }}</dd>
-        </dl>
-      </template>
-    </OneSection>
-  </section>
+  <p>コンポーネント名: {{ currentName }}</p>
+  <KeepAlive>
+    <component v-bind:is="currentComponent" />
+  </KeepAlive>
+  <button v-on:click="switchComponent">切り替え</button>
 </template>
 
 <style>
