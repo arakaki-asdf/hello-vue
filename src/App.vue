@@ -1,34 +1,55 @@
 <script setup lang="ts">
-import { ref, shallowRef } from "vue";
-import Radio from "./components/Radio.vue";
-import Select from "./components/Select.vue";
-import Input from "./components/Input.vue";
+import { reactive, provide } from "vue";
+import { RouterView } from "vue-router";
+import type { Member } from "@/interfaces";
 
-const componentList = [Input, Radio, Select];
-const nameList: string[] = ["Input", "Radio", "Select"];
-
-let currentIndex = 0;
-const currentComponent = shallowRef(componentList[currentIndex]);
-const currentName = ref(nameList[currentIndex]);
-
-const switchComponent = (): void => {
-  currentIndex = ++currentIndex % componentList.length;
-  currentComponent.value = componentList[currentIndex];
-  currentName.value = nameList[currentIndex];
-}
+const memberList = new Map<number, Member>();
+memberList.set(33456, {
+  id: 33456,
+  name: "田中太郎",
+  email: "tanaka@example.com",
+  points: 35,
+  note: "初回特典あり"});
+memberList.set(47783, {
+  id: 47783,
+  name: "鈴木次郎",
+  email: "suzuki@example.com",
+  points: 53});
 </script>
 
 <template>
-  <p>コンポーネント名: {{ currentName }}</p>
-  <KeepAlive>
-    <component v-bind:is="currentComponent" />
-  </KeepAlive>
-  <button v-on:click="switchComponent">切り替え</button>
+  <header>
+    <h1>Vue Routerサンプル</h1>
+  </header>
+  <main>
+    <RouterView />
+  </main>
 </template>
 
 <style>
-.box {
-    border: green 1px solid;
-    margin: 10px;
+main {
+    border: blue 1px solid;
+    padding: 10px;
+}
+
+/* パンくずリスト */
+#breadcrumbs ul li {
+  display: inline;
+  list-style-type: none;
+}
+#breadcrumbs {
+  margin-left: 0px;
+}
+#breadcrumbs ul {
+  padding-left: 0px;
+}
+#breadcrumbs ul .current {
+  color: red;
+}
+#breadcrumbs ul li:before {
+  content: " > ";
+}
+#breadcrumbs ul li:first-child:before {
+  content: none;
 }
 </style>
