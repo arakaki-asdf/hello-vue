@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { Member } from '@/interfaces';
-import { computed, inject, reactive } from 'vue';
+import { inject, reactive } from 'vue';
+import { RouterLink, useRouter } from "vue-router";
 
 const title = "会員情報追加";
+const router = useRouter();
 const memberList = inject("memberList") as Map<number, Member>;
 const member: Member = reactive(
     {
@@ -14,6 +16,14 @@ const member: Member = reactive(
     });
 const onAdd = (): void => {
     console.log(member);
+    if (memberList.get(member.id)) {
+        // すでに存在するIDなら作成させない
+        alert("すでに存在するIDです");
+        return;
+    }
+    memberList.set(member.id, member);
+    // 動的ルーティング (やっていることは<RouterLink>と一緒)
+    router.push({name: "MemberList"});
 };
 </script>
 
