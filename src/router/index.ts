@@ -22,7 +22,12 @@ const routeSettings: RouteRecordRaw[] = [
         props: (routes) => {
             return { id: Number(routes.params.id) };
         }
-    }
+    },
+    {
+        path: "/member/memberAdd",
+        name: "MemberAdd",
+        component: () => import("@/views/member/MemberAdd.vue"),
+    },
 ];
 
 const router = createRouter({

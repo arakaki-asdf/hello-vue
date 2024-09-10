@@ -21,6 +21,9 @@ console.log(memberList);
     </nav>
     <section>
         <h2>会員リスト</h2>
+        <p>
+            新規登録は<RouterLink v-bind:to="{name: 'MemberAdd'}">こちら</RouterLink>から
+        </p>
         <section>
             <ul>
                 <li v-for="[id, member] in memberList"
