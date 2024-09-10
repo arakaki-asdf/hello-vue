@@ -18,11 +18,9 @@ const routeSettings: RouteRecordRaw[] = [
     {
         path: "/member/memberDetail/:id", // idパラメータ付き
         name: "MemberDetail",
-        component: () => {
-            return import("@/views/member/MemberDetail.vue");
-        },
+        component: () => import("@/views/member/MemberDetail.vue"),
         props: (routes) => {
-            return { id: Number(routes.params.id) }
+            return { id: Number(routes.params.id) };
         }
     }
 ];
