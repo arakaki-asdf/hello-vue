@@ -4,6 +4,7 @@ import { RouterView } from "vue-router";
 import type { Member } from "@/interfaces";
 
 const memberList = new Map<number, Member>();
+provide("memberList", reactive(memberList));
 memberList.set(33456, {
   id: 33456,
   name: "田中太郎",
